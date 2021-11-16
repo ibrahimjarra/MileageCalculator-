@@ -9,13 +9,11 @@
 package ch16;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -49,11 +47,16 @@ public class MileageCalculatorNoConversion extends Application {
     private ToggleGroup tgConv = new ToggleGroup();
     
     private GridPane mainPane = new GridPane();
-    
+
+
+
     public void start(Stage primaryStage) {   	
     	// set toggle group for RadioButtons
     	rbMPG.setToggleGroup(tgConv);
     	rbKPL.setToggleGroup(tgConv);
+        ObservableList <String> list = FXCollections.observableArrayList(defaultResult, altResult);
+
+        ComboBox<String> comboBox = new ComboBox<>(list);
     	
         // set preferences for UI components
         tfDistance.setMaxWidth(txtWidth);
@@ -69,8 +72,8 @@ public class MileageCalculatorNoConversion extends Application {
         
         // add items to mainPane
         mainPane.add(lblEffType, 0, 0);
-        mainPane.add(rbMPG, 0, 1);
-        mainPane.add(rbKPL, 1, 1);
+        mainPane.add(comboBox,  0, 1);
+        //mainPane.add(rbKPL, 1, 1);
         mainPane.add(lblDistance, 0, 2);
         mainPane.add(tfDistance, 1, 2);
         mainPane.add(lblCapacity, 0, 3);
