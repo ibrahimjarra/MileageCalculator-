@@ -47,16 +47,18 @@ public class MileageCalculatorNoConversion extends Application {
     private ToggleGroup tgConv = new ToggleGroup();
     
     private GridPane mainPane = new GridPane();
+    
+    private ObservableList <String> list = FXCollections.observableArrayList(defaultResult, altResult);
+    private ComboBox<String> comboBox = new ComboBox<>(list);
 
 
 
     public void start(Stage primaryStage) {   	
-    	// set toggle group for RadioButtons
+    	// set toggle group for RadioButton -- Updated to Combo box
     	rbMPG.setToggleGroup(tgConv);
     	rbKPL.setToggleGroup(tgConv);
-        ObservableList <String> list = FXCollections.observableArrayList(defaultResult, altResult);
 
-        ComboBox<String> comboBox = new ComboBox<>(list);
+
     	
         // set preferences for UI components
         tfDistance.setMaxWidth(txtWidth);
@@ -88,8 +90,7 @@ public class MileageCalculatorNoConversion extends Application {
         tfDistance.setOnAction(e -> calcMileage());
         tfCapacity.setOnAction(e -> calcMileage());
         tfResult.setOnAction(e -> calcMileage());
-        rbKPL.setOnAction(e -> changeLabels());
-        rbMPG.setOnAction(e -> changeLabels());     
+        comboBox.setOnAction(e->  changeLabels());
         btnReset.setOnAction(e -> resetForm());
         
         // create a scene and place it in the stage
@@ -111,7 +112,7 @@ public class MileageCalculatorNoConversion extends Application {
      */
     private void changeLabels() {
     	// distinguish between L/100KM and MPG
-    	if (rbKPL.isSelected() && lblCapacity.getText().equals(defaultCapacity)) {
+    	if (comboBox.getValue().equals(altResult) && lblCapacity.getText().equals(defaultCapacity)) {
         	// update labels
         	lblCapacity.setText(altCapacity);
         	lblDistance.setText(altMileage);
