@@ -2,9 +2,11 @@
  * File: csci1302/ch16/MileageCalculator.java
  * Package: ch16
  * @author Christopher Williams
+ * Edited: Ibrahim Jarra
  * Created on: Apr 12, 2017
- * Last Modified: Apr 15, 2019
- * Description:  
+ * Last Modified: Nov 16, 2021
+ * Description:
+ * Github Repo: https://github.com/ibrahimjarra/MileageCalculator
  */
 package ch16;
 
@@ -17,7 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class MileageCalculatorNoConversion extends Application {
+public class PAssign09 extends Application {
 	// default values/strings
     private double txtWidth = 125.0;
     private String defaultCalc = String.format("%.2f", 0.00);
@@ -47,7 +49,7 @@ public class MileageCalculatorNoConversion extends Application {
     private ToggleGroup tgConv = new ToggleGroup();
     
     private GridPane mainPane = new GridPane();
-    
+
     private ObservableList <String> list = FXCollections.observableArrayList(defaultResult, altResult);
     private ComboBox<String> comboBox = new ComboBox<>(list);
 
@@ -75,7 +77,6 @@ public class MileageCalculatorNoConversion extends Application {
         // add items to mainPane
         mainPane.add(lblEffType, 0, 0);
         mainPane.add(comboBox,  0, 1);
-        //mainPane.add(rbKPL, 1, 1);
         mainPane.add(lblDistance, 0, 2);
         mainPane.add(tfDistance, 1, 2);
         mainPane.add(lblCapacity, 0, 3);
@@ -90,8 +91,16 @@ public class MileageCalculatorNoConversion extends Application {
         tfDistance.setOnAction(e -> calcMileage());
         tfCapacity.setOnAction(e -> calcMileage());
         tfResult.setOnAction(e -> calcMileage());
-        comboBox.setOnAction(e->  changeLabels());
+        comboBox.setOnAction(e-> {
+            changeLabels();
+            convertion();
+
+
+        });
         btnReset.setOnAction(e -> resetForm());
+
+
+
         
         // create a scene and place it in the stage
         Scene scene = new Scene(mainPane); 
@@ -151,6 +160,34 @@ public class MileageCalculatorNoConversion extends Application {
     
 	    // update calculation fields with currency formatting
         tfResult.setText(String.format("%.2f", result));
+    }
+
+    private void convertion() {
+        double defDistance = Double.parseDouble(tfDistance.getText());
+        double defCapacity =Double.parseDouble(tfCapacity.getText());
+        double defResult = Double.parseDouble(tfResult.getText());
+        double distance = 0.0;
+        double capacity = 0.0;
+        double result = 0.0;
+
+        if(comboBox.getValue() == defaultResult){
+            tfDistance.setText(String.format("%.2f",defDistance/1.609));
+            tfCapacity.setText(String.format("%.2f",defCapacity/3.78541));
+            tfResult.setText(String.format("%.2f",235.215/defResult));
+
+        }else if (comboBox.getValue() == altResult){
+            distance = Double.parseDouble(tfDistance.getText());
+            capacity = Double.parseDouble(tfCapacity.getText());
+            result = Double.parseDouble(tfResult.getText());
+
+            tfDistance.setText(String.format("%.2f", distance*1.609 ) );
+            tfCapacity.setText(String.format("%.2f", capacity*3.78541 ) );
+            tfResult.setText(String.format("%.2f", 235.215/result));
+        }
+
+
+
+
     }
     
     /**
